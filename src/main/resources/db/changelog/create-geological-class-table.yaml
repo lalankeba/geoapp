@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-geological-class
+      author: lalanke
+      changes:
+        - createTable:
+            tableName: geological_class
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: code
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: section_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_geological_class_section_id
+                    referencedTableName: section
+                    referencedColumnNames: id

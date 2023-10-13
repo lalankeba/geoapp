@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-section
+      author: lalanke
+      changes:
+        - createTable:
+            tableName: section
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
