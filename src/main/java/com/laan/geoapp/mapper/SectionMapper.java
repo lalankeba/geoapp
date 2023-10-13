@@ -7,6 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface SectionMapper {
 
@@ -19,5 +21,6 @@ public interface SectionMapper {
     @Mapping(target = "geologicalClasses", source = "geologicalClassEntities")
     SectionResponse mapEntityToResponse(SectionEntity sectionEntity);
 
+    List<SectionResponse> mapEntitiesToResponses(List<SectionEntity> sectionEntities);
 
 }

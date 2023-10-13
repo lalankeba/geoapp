@@ -8,7 +8,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface GeologicalClassMapper {
@@ -23,6 +22,6 @@ public interface GeologicalClassMapper {
     default List<GeologicalClassEntity> mapAddRequestsToEntities(List<GeologicalClassAddRequest> addRequests, SectionEntity existingSectionEntity) {
         return addRequests.stream()
                 .map(addRequest -> mapAddRequestToEntity(addRequest, existingSectionEntity))
-                .collect(Collectors.toList());
+                .toList();
     }
 }
