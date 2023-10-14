@@ -9,7 +9,7 @@ import lombok.Data;
 public class GeologicalClassEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;

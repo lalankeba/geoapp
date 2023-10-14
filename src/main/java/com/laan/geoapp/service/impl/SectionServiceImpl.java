@@ -2,6 +2,7 @@ package com.laan.geoapp.service.impl;
 
 import com.laan.geoapp.dto.request.GeologicalClassAddRequest;
 import com.laan.geoapp.dto.request.SectionAddRequest;
+import com.laan.geoapp.dto.request.SectionUpdateRequest;
 import com.laan.geoapp.dto.response.SectionResponse;
 import com.laan.geoapp.entity.GeologicalClassEntity;
 import com.laan.geoapp.entity.SectionEntity;
@@ -15,6 +16,7 @@ import com.laan.geoapp.validator.SectionValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,9 +39,11 @@ public class SectionServiceImpl implements SectionService {
     private final GeologicalClassValidator geologicalClassValidator;
 
     @Override
+    @Transactional
     public SectionResponse createSection(final SectionAddRequest sectionAddRequest) {
+        sectionValidator.validateNamesOfSectionsAndGeologicalClasses(sectionAddRequest);
         geologicalClassValidator.validateDuplicateGeologicalClasses(sectionAddRequest.getGeologicalClasses());
-        log.info("Validated geological codes for duplicates");
+        log.info("Validated section name, geological class names and codes");
 
         SectionEntity sectionEntity = sectionMapper.mapAddRequestToEntity(sectionAddRequest);
         SectionEntity savedSectionEntity = sectionRepository.save(sectionEntity);
@@ -71,6 +75,39 @@ public class SectionServiceImpl implements SectionService {
     public List<SectionResponse> getSections() {
         List<SectionEntity> sectionEntities = sectionRepository.findAll();
         return sectionMapper.mapEntitiesToResponses(sectionEntities);
+    }
+
+    @Override
+    @Transactional
+    public SectionResponse updateSection(final Long id, final SectionUpdateRequest sectionUpdateRequest) {
+        Optional<SectionEntity> optionalSectionEntity = sectionRepository.findById(id);
+        sectionValidator.validateNonExistingSectionEntity(id, optionalSectionEntity);
+
+        sectionValidator.validateNamesOfSectionsAndGeologicalClasses(sectionUpdateRequest);
+        geologicalClassValidator.validateDuplicateGeologicalClasses(sectionUpdateRequest.getGeologicalClasses());
+        log.info("Validated section name, geological class names and codes");
+
+        SectionEntity sectionEntity = sectionMapper.mapUpdateRequestToEntity(sectionUpdateRequest, id);
+        SectionEntity updatedSectionEntity = sectionRepository.save(sectionEntity);
+        log.info("Updated section");
+
+        List<GeologicalClassAddRequest> geologicalClassUpdateRequests = sectionUpdateRequest.getGeologicalClasses();
+        List<GeologicalClassEntity> geologicalClassEntities = geologicalClassMapper.mapAddRequestsToEntities(geologicalClassUpdateRequests, updatedSectionEntity);
+        List<GeologicalClassEntity> savedGeologicalClassEntities = geologicalClassRepository.saveAll(geologicalClassEntities);
+        log.info("Saved geological classes");
+
+        updatedSectionEntity.setGeologicalClassEntities(savedGeologicalClassEntities);
+
+        return sectionMapper.mapEntityToResponse(updatedSectionEntity);
+    }
+
+    @Override
+    @Transactional
+    public void deleteSection(final Long id) {
+        Optional<SectionEntity> optionalSectionEntity = sectionRepository.findById(id);
+        sectionValidator.validateNonExistingSectionEntity(id, optionalSectionEntity);
+
+        sectionRepository.deleteById(id);
     }
 
 }

@@ -2,6 +2,7 @@ package com.laan.geoapp.controller.exception;
 
 import com.laan.geoapp.exception.DuplicateElementException;
 import com.laan.geoapp.exception.ElementNotFoundException;
+import com.laan.geoapp.exception.InvalidElementException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -27,6 +28,12 @@ public class ExceptionController {
     @ExceptionHandler(DuplicateElementException.class)
     public ProblemDetail onDuplicateElementException(DuplicateElementException exception) {
         log.error("DuplicateElementException occurred. {}", exception.getMessage());
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getMessage());
+    }
+
+    @ExceptionHandler(InvalidElementException.class)
+    public ProblemDetail onInvalidElementException(InvalidElementException exception) {
+        log.error("InvalidElementException occurred. {}", exception.getMessage());
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 

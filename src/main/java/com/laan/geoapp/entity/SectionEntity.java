@@ -11,11 +11,11 @@ import java.util.List;
 public class SectionEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
 
-    @OneToMany(mappedBy = "sectionEntity")
+    @OneToMany(mappedBy = "sectionEntity", cascade = CascadeType.ALL)
     private List<GeologicalClassEntity> geologicalClassEntities;
 }
