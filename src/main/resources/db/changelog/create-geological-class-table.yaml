@@ -7,12 +7,6 @@ databaseChangeLog:
             tableName: geological_class
             columns:
               - column:
-                  name: id
-                  type: int
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
                   name: name
                   type: varchar(200)
                   constraints:
@@ -23,10 +17,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: section_id
-                  type: int
+                  name: section_name
+                  type: varchar(200)
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_geological_class_section_id
+                    foreignKeyName: fk_geological_class_section_name
                     referencedTableName: section
-                    referencedColumnNames: id
+                    referencedColumnNames: name
+            constraints:
+              - primaryKey:
+                  columnNames: name,section_name

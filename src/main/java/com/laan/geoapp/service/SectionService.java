@@ -10,11 +10,11 @@ public interface SectionService {
 
     SectionResponse createSection(final SectionAddRequest sectionAddRequest);
 
-    SectionResponse getSection(final Long id);
+    SectionResponse getSection(final String name);
 
     List<SectionResponse> getSections();
 
-    SectionResponse updateSection(final Long id, final SectionUpdateRequest sectionUpdateRequest);
+    SectionResponse updateSection(final String name, final SectionUpdateRequest sectionUpdateRequest);
 
-    void deleteSection(final Long id);
+    void deleteSection(final String id);
 }

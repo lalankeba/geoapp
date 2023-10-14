@@ -2,9 +2,11 @@ package com.laan.geoapp.validator;
 
 import com.laan.geoapp.dto.request.SectionAddRequest;
 import com.laan.geoapp.entity.SectionEntity;
+import com.laan.geoapp.exception.DuplicateElementException;
 import com.laan.geoapp.exception.ElementNotFoundException;
 import com.laan.geoapp.exception.InvalidElementException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -17,9 +19,15 @@ public class SectionValidator {
     private static final String GEO_CLASS_NAME_INIT_PREFIX = "Geo Class ";
     private static final String GEO_CLASS_CODE_INIT_PREFIX = "GC";
 
-    public void validateNonExistingSectionEntity(Long id, Optional<SectionEntity> optionalSectionEntity) {
+    public void validateDuplicateSectionEntity(Optional<SectionEntity> optionalSectionEntity) {
+        if (optionalSectionEntity.isPresent()) {
+            throw new DuplicateElementException("Section found for the same name: " + optionalSectionEntity.get().getName());
+        }
+    }
+
+    public void validateNonExistingSectionEntity(String name, Optional<SectionEntity> optionalSectionEntity) {
         if (optionalSectionEntity.isEmpty()) {
-            throw new ElementNotFoundException("Section cannot be found for the id: " + id);
+            throw new ElementNotFoundException("Section cannot be found for the name: " + name);
         }
     }
 

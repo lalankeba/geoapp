@@ -6,17 +6,16 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "geological_class")
+@IdClass(GeologicalClassEntityId.class)
 public class GeologicalClassEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
     private String name;
 
     private String code;
 
+    @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "section_id")
+    @JoinColumn(name = "section_name")
     private SectionEntity sectionEntity;
 }

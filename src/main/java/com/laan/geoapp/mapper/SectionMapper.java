@@ -15,7 +15,6 @@ public interface SectionMapper {
 
     SectionMapper INSTANCE = Mappers.getMapper( SectionMapper.class );
 
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "geologicalClassEntities", ignore = true)
     SectionEntity mapAddRequestToEntity(SectionAddRequest addRequest);
 
@@ -24,8 +23,7 @@ public interface SectionMapper {
 
     List<SectionResponse> mapEntitiesToResponses(List<SectionEntity> sectionEntities);
 
-    @Mapping(target = "id", source = "sectionId")
     @Mapping(target = "geologicalClassEntities", ignore = true)
-    SectionEntity mapUpdateRequestToEntity(SectionUpdateRequest updateRequest, Long sectionId);
+    SectionEntity mapUpdateRequestToEntity(SectionUpdateRequest updateRequest);
 
 }

@@ -45,6 +45,9 @@ public class SectionServiceImpl implements SectionService {
         geologicalClassValidator.validateDuplicateGeologicalClasses(sectionAddRequest.getGeologicalClasses());
         log.info("Validated section name, geological class names and codes");
 
+        Optional<SectionEntity> optionalSectionEntity  = sectionRepository.findById(sectionAddRequest.getName());
+        sectionValidator.validateDuplicateSectionEntity(optionalSectionEntity);
+
         SectionEntity sectionEntity = sectionMapper.mapAddRequestToEntity(sectionAddRequest);
         SectionEntity savedSectionEntity = sectionRepository.save(sectionEntity);
         log.info("Saved section");
@@ -60,9 +63,9 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public SectionResponse getSection(final Long id) {
-        Optional<SectionEntity> optionalSectionEntity = sectionRepository.findById(id);
-        sectionValidator.validateNonExistingSectionEntity(id, optionalSectionEntity);
+    public SectionResponse getSection(final String name) {
+        Optional<SectionEntity> optionalSectionEntity = sectionRepository.findById(name);
+        sectionValidator.validateNonExistingSectionEntity(name, optionalSectionEntity);
 
         SectionResponse sectionResponse = null;
         if (optionalSectionEntity.isPresent()) {
@@ -79,15 +82,17 @@ public class SectionServiceImpl implements SectionService {
 
     @Override
     @Transactional
-    public SectionResponse updateSection(final Long id, final SectionUpdateRequest sectionUpdateRequest) {
-        Optional<SectionEntity> optionalSectionEntity = sectionRepository.findById(id);
-        sectionValidator.validateNonExistingSectionEntity(id, optionalSectionEntity);
+    public SectionResponse updateSection(final String name, final SectionUpdateRequest sectionUpdateRequest) {
+        Optional<SectionEntity> optionalSectionEntity = sectionRepository.findById(name);
+        sectionValidator.validateNonExistingSectionEntity(name, optionalSectionEntity);
 
         sectionValidator.validateNamesOfSectionsAndGeologicalClasses(sectionUpdateRequest);
         geologicalClassValidator.validateDuplicateGeologicalClasses(sectionUpdateRequest.getGeologicalClasses());
         log.info("Validated section name, geological class names and codes");
 
-        SectionEntity sectionEntity = sectionMapper.mapUpdateRequestToEntity(sectionUpdateRequest, id);
+        geologicalClassRepository.deleteAllBySectionEntity(optionalSectionEntity.get());
+
+        SectionEntity sectionEntity = sectionMapper.mapUpdateRequestToEntity(sectionUpdateRequest);
         SectionEntity updatedSectionEntity = sectionRepository.save(sectionEntity);
         log.info("Updated section");
 
@@ -103,11 +108,11 @@ public class SectionServiceImpl implements SectionService {
 
     @Override
     @Transactional
-    public void deleteSection(final Long id) {
-        Optional<SectionEntity> optionalSectionEntity = sectionRepository.findById(id);
-        sectionValidator.validateNonExistingSectionEntity(id, optionalSectionEntity);
+    public void deleteSection(final String name) {
+        Optional<SectionEntity> optionalSectionEntity = sectionRepository.findById(name);
+        sectionValidator.validateNonExistingSectionEntity(name, optionalSectionEntity);
 
-        sectionRepository.deleteById(id);
+        sectionRepository.deleteById(name);
     }
 
 }

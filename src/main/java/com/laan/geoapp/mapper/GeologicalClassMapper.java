@@ -14,7 +14,6 @@ public interface GeologicalClassMapper {
 
     GeologicalClassMapper INSTANCE = Mappers.getMapper( GeologicalClassMapper.class );
 
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", source = "addRequest.name")
     @Mapping(target = "sectionEntity", source = "existingSectionEntity")
     GeologicalClassEntity mapAddRequestToEntity(GeologicalClassAddRequest addRequest, SectionEntity existingSectionEntity);
@@ -24,4 +23,10 @@ public interface GeologicalClassMapper {
                 .map(addRequest -> mapAddRequestToEntity(addRequest, existingSectionEntity))
                 .toList();
     }
+
+    List<GeologicalClassEntity> mapAddRequestsToEntities(List<GeologicalClassAddRequest> addRequests);
+
+    @Mapping(target = "sectionEntity", ignore = true)
+    GeologicalClassEntity mapAddRequestToEntity(GeologicalClassAddRequest addRequest);
+
 }

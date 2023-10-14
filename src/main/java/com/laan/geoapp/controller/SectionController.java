@@ -1,6 +1,7 @@
 package com.laan.geoapp.controller;
 
 import com.laan.geoapp.dto.request.SectionAddRequest;
+import com.laan.geoapp.dto.request.SectionUpdateRequest;
 import com.laan.geoapp.dto.response.SectionResponse;
 import com.laan.geoapp.service.SectionService;
 import jakarta.validation.Valid;
@@ -32,10 +33,10 @@ public class SectionController {
         return new ResponseEntity<>(sectionResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getSection(@PathVariable("id") Long id) {
+    @GetMapping("/{name}")
+    public ResponseEntity<Object> getSection(@PathVariable("name") String name) {
         log.info("Getting section");
-        SectionResponse sectionResponse = sectionService.getSection(id);
+        SectionResponse sectionResponse = sectionService.getSection(name);
         log.info("Get section done");
         return new ResponseEntity<>(sectionResponse, HttpStatus.OK);
     }
@@ -48,11 +49,19 @@ public class SectionController {
         return new ResponseEntity<>(sectionResponses, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteSection(@PathVariable("id") Long id) {
-        log.info("Deleting section with id: {}", id);
-        sectionService.deleteSection(id);
-        log.info("Deleted section with id: {}", id);
+    @PutMapping("/{name}")
+    public ResponseEntity<Object> createSection(@PathVariable("name") String name, @Valid @RequestBody SectionUpdateRequest sectionUpdateRequest) {
+        log.info("Updating section");
+        SectionResponse sectionResponse = sectionService.updateSection(name, sectionUpdateRequest);
+        log.info("Updated new section");
+        return new ResponseEntity<>(sectionResponse, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{name}")
+    public ResponseEntity<Object> deleteSection(@PathVariable("name") String name) {
+        log.info("Deleting section with name: {}", name);
+        sectionService.deleteSection(name);
+        log.info("Deleted section with name: {}", name);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
