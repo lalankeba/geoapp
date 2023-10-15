@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-job
+      author: lalanke
+      changes:
+        - createTable:
+            tableName: job
+            columns:
+              - column:
+                  name: id
+                  type: varchar(100)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: job_type
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: file_path
+                  type: varchar(200)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: file_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: job_result
+                  type: varchar(200)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: detail
+                  type: varchar(300)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: start_date_time
+                  type: timestamp
+                  constraints:
+                    nullable: true

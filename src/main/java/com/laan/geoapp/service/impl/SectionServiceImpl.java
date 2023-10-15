@@ -121,5 +121,10 @@ public class SectionServiceImpl implements SectionService {
         return sectionMapper.mapEntitiesToResponses(sectionEntities);
     }
 
+    @Override
+    @Transactional
+    public List<SectionResponse> createSections(final List<SectionAddRequest> sectionAddRequests) {
+        return sectionAddRequests.stream().map(this::createSection).toList();
+    }
 
 }
