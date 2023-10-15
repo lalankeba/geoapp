@@ -99,7 +99,7 @@ public class SectionServiceImpl implements SectionService {
         List<GeologicalClassAddRequest> geologicalClassUpdateRequests = sectionUpdateRequest.getGeologicalClasses();
         List<GeologicalClassEntity> geologicalClassEntities = geologicalClassMapper.mapAddRequestsToEntities(geologicalClassUpdateRequests, updatedSectionEntity);
         List<GeologicalClassEntity> savedGeologicalClassEntities = geologicalClassRepository.saveAll(geologicalClassEntities);
-        log.info("Saved geological classes");
+        log.info("Updated geological classes");
 
         updatedSectionEntity.setGeologicalClassEntities(savedGeologicalClassEntities);
 
@@ -114,5 +114,12 @@ public class SectionServiceImpl implements SectionService {
 
         sectionRepository.deleteById(name);
     }
+
+    @Override
+    public List<SectionResponse> getSectionsByGeoCode(final String geoCode) {
+        List<SectionEntity> sectionEntities = sectionRepository.findSectionEntitiesByGeologicalClassEntityCode(geoCode);
+        return sectionMapper.mapEntitiesToResponses(sectionEntities);
+    }
+
 
 }

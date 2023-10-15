@@ -17,4 +17,6 @@ public interface SectionService {
     SectionResponse updateSection(final String name, final SectionUpdateRequest sectionUpdateRequest);
 
     void deleteSection(final String id);
+
+    List<SectionResponse> getSectionsByGeoCode(final String geoCode);
 }

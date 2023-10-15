@@ -65,4 +65,12 @@ public class SectionController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/by-code")
+    public ResponseEntity<Object> getSectionsByGeoCode(@RequestParam("code") String code) {
+        log.info("Getting sections by geological class code");
+        List<SectionResponse> sectionResponses = sectionService.getSectionsByGeoCode(code);
+        log.info("Get sections by geological class code, done");
+        return new ResponseEntity<>(sectionResponses, HttpStatus.OK);
+    }
+
 }
