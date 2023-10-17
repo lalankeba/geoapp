@@ -64,7 +64,12 @@ public class FileJobUtil {
 
     private List<SectionAddRequest> readAndCreateAddRequests(final MultipartFile multipartFile, final String fileName) throws IOException {
         List<SectionAddRequest> sectionAddRequests = new ArrayList<>();
-        File tempFile = new File(filePath + fileName);
+
+        File currDir = new File(filePath);
+        String path = currDir.getAbsolutePath();
+        String fileLocation = path + File.separator + fileName;
+
+        File tempFile = new File(fileLocation);
         multipartFile.transferTo(tempFile);
 
         FileInputStream fileInputStream = new FileInputStream(tempFile);
@@ -120,7 +125,6 @@ public class FileJobUtil {
             jobResult = JobResult.ERROR;
             detail = e.getMessage();
             log.error("Exception occurred: {}", e.getMessage());
-            log.error("Exception occurred", e);
         }
 
         jobEntity.setJobResult(jobResult);
