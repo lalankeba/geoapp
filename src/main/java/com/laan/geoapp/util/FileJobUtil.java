@@ -257,7 +257,7 @@ public class FileJobUtil {
     private void init() {
         File sectionFolder = new File(filePath);
         if (!sectionFolder.exists()){
-            boolean folderCreated = sectionFolder.mkdir();
+            boolean folderCreated = sectionFolder.mkdirs();
             log.info("Folder {} created: {}", sectionFolder.getName(), folderCreated);
         }
     }

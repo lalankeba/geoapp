@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.Date;
 import java.util.Optional;
 
@@ -34,7 +35,7 @@ public class ImportServiceImpl implements ImportService {
 
     @Override
     public JobResponse processImportFile(final MultipartFile file) {
-        JobEntity jobEntity = jobMapper.mapItemsToEntity(JobType.IMPORT, filePath, JobResult.IN_PROGRESS, new Date());
+        JobEntity jobEntity = jobMapper.mapItemsToEntity(JobType.IMPORT, getAbsoluteFilePath(), JobResult.IN_PROGRESS, new Date());
         JobEntity savedJobEntity = jobRepository.save(jobEntity);
         log.info("Import job saved");
 
@@ -51,6 +52,10 @@ public class ImportServiceImpl implements ImportService {
             throw new ElementNotFoundException("Import job cannot be found the given id: " + id);
         }
         return jobMapper.mapEntityToResponse(optionalJobEntity.get());
+    }
+
+    private String getAbsoluteFilePath() {
+        return new File(filePath).getAbsolutePath();
     }
 
 }
