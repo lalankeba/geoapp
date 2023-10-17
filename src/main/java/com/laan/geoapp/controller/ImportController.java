@@ -2,6 +2,7 @@ package com.laan.geoapp.controller;
 
 import com.laan.geoapp.dto.response.JobResponse;
 import com.laan.geoapp.service.ImportService;
+import com.laan.geoapp.util.PathUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 
 @RestController
-@RequestMapping("/import")
+@RequestMapping(PathUtil.IMPORT)
 @RequiredArgsConstructor
 @Slf4j
 public class ImportController {
@@ -29,7 +30,7 @@ public class ImportController {
         return new ResponseEntity<>(jobResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(PathUtil.ID_PLACEHOLDER)
     public ResponseEntity<Object> getImportJobStatus(@PathVariable("id") String id) {
         log.info("Getting status of import job for id: {}", id);
         JobResponse jobResponse = importService.getImportJobStatus(id);

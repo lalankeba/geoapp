@@ -1,4 +1,4 @@
-package com.laan.geoapp;
+package com.laan.geoapp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ public class BeanConfig {
         executor.setCorePoolSize(5);
         executor.setMaxPoolSize(20);
         executor.setQueueCapacity(100);
-        executor.setThreadNamePrefix("Async-"); // Set the thread name prefix
+        executor.setThreadNamePrefix("Async-");
         executor.initialize();
         return executor;
     }

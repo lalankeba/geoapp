@@ -4,6 +4,7 @@ import com.laan.geoapp.dto.request.SectionAddRequest;
 import com.laan.geoapp.dto.request.SectionUpdateRequest;
 import com.laan.geoapp.dto.response.SectionResponse;
 import com.laan.geoapp.service.SectionService;
+import com.laan.geoapp.util.PathUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/sections")
+@RequestMapping(PathUtil.SECTIONS)
 @RequiredArgsConstructor
 @Slf4j
 public class SectionController {
@@ -33,7 +34,7 @@ public class SectionController {
         return new ResponseEntity<>(sectionResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{name}")
+    @GetMapping(PathUtil.NAME_PLACEHOLDER)
     public ResponseEntity<Object> getSection(@PathVariable("name") String name) {
         log.info("Getting section");
         SectionResponse sectionResponse = sectionService.getSection(name);
@@ -49,7 +50,7 @@ public class SectionController {
         return new ResponseEntity<>(sectionResponses, HttpStatus.OK);
     }
 
-    @PutMapping("/{name}")
+    @PutMapping(PathUtil.NAME_PLACEHOLDER)
     public ResponseEntity<Object> createSection(@PathVariable("name") String name, @Valid @RequestBody SectionUpdateRequest sectionUpdateRequest) {
         log.info("Updating section");
         SectionResponse sectionResponse = sectionService.updateSection(name, sectionUpdateRequest);
@@ -57,7 +58,7 @@ public class SectionController {
         return new ResponseEntity<>(sectionResponse, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{name}")
+    @DeleteMapping(PathUtil.NAME_PLACEHOLDER)
     public ResponseEntity<Object> deleteSection(@PathVariable("name") String name) {
         log.info("Deleting section with name: {}", name);
         sectionService.deleteSection(name);
@@ -65,7 +66,7 @@ public class SectionController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/by-code")
+    @GetMapping(PathUtil.BY_CODE)
     public ResponseEntity<Object> getSectionsByGeoCode(@RequestParam("code") String code) {
         log.info("Getting sections by geological class code");
         List<SectionResponse> sectionResponses = sectionService.getSectionsByGeoCode(code);

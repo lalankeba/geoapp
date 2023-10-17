@@ -2,6 +2,7 @@ package com.laan.geoapp.controller;
 
 import com.laan.geoapp.dto.response.JobResponse;
 import com.laan.geoapp.service.ExportService;
+import com.laan.geoapp.util.PathUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ import java.io.IOException;
  */
 
 @RestController
-@RequestMapping("/export")
+@RequestMapping(PathUtil.EXPORT)
 @RequiredArgsConstructor
 @Slf4j
 public class ExportController {
@@ -34,7 +35,7 @@ public class ExportController {
         return new ResponseEntity<>(jobResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(PathUtil.ID_PLACEHOLDER)
     public ResponseEntity<Object> getExportJobStatus(@PathVariable("id") String id) {
         log.info("Getting status of export job for id: {}", id);
         JobResponse jobResponse = exportService.getExportJobStatus(id);
@@ -42,7 +43,7 @@ public class ExportController {
         return new ResponseEntity<>(jobResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/file")
+    @GetMapping(PathUtil.ID_PLACEHOLDER + PathUtil.FILE)
     public ResponseEntity<Object> getExportFile(@PathVariable("id") String id) throws IOException {
         log.info("Getting the export file for the id: {}", id);
         byte[] fileData = exportService.getExportFile(id);
