@@ -54,7 +54,7 @@ public class ExportServiceImpl implements ExportService {
 
     @Override
     public JobResponse getExportJobStatus(final String id) {
-        Optional<JobEntity> optionalJobEntity = jobRepository.findById(id);
+        Optional<JobEntity> optionalJobEntity = jobRepository.findByIdAndJobType(id, JobType.EXPORT);
 
         if (optionalJobEntity.isEmpty()) {
             throw new ElementNotFoundException("Export job cannot be found the given id: " + id);

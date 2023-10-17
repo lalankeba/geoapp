@@ -45,8 +45,8 @@ public class ImportServiceImpl implements ImportService {
     }
 
     @Override
-    public JobResponse getImportJobStatus(String id) {
-        Optional<JobEntity> optionalJobEntity = jobRepository.findById(id);
+    public JobResponse getImportJobStatus(final String id) {
+        Optional<JobEntity> optionalJobEntity = jobRepository.findByIdAndJobType(id, JobType.IMPORT);
 
         if (optionalJobEntity.isEmpty()) {
             throw new ElementNotFoundException("Import job cannot be found the given id: " + id);
