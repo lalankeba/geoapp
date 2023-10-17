@@ -13,6 +13,6 @@ public class SectionEntity {
     @Id
     private String name;
 
-    @OneToMany(mappedBy = "sectionEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sectionEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<GeologicalClassEntity> geologicalClassEntities;
 }

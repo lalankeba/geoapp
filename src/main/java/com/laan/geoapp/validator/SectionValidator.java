@@ -5,8 +5,8 @@ import com.laan.geoapp.entity.SectionEntity;
 import com.laan.geoapp.exception.DuplicateElementException;
 import com.laan.geoapp.exception.ElementNotFoundException;
 import com.laan.geoapp.exception.InvalidElementException;
+import com.laan.geoapp.util.ConstantsUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -14,10 +14,6 @@ import java.util.Optional;
 @Component
 @Slf4j
 public class SectionValidator {
-
-    private static final String SECTION_NAME_PREFIX = "Section ";
-    private static final String GEO_CLASS_NAME_INIT_PREFIX = "Geo Class ";
-    private static final String GEO_CLASS_CODE_INIT_PREFIX = "GC";
 
     public void validateDuplicateSectionEntity(Optional<SectionEntity> optionalSectionEntity) {
         if (optionalSectionEntity.isPresent()) {
@@ -33,10 +29,10 @@ public class SectionValidator {
 
     public void validateNamesOfSectionsAndGeologicalClasses(SectionAddRequest sectionAddRequest) {
         String sectionName = sectionAddRequest.getName();
-        String sectionNameNumber = sectionName.substring(SECTION_NAME_PREFIX.length());
+        String sectionNameNumber = sectionName.substring(ConstantsUtil.SECTION_NAME_PREFIX.length());
 
-        String geoClassNamePrefix = GEO_CLASS_NAME_INIT_PREFIX + sectionNameNumber;
-        String geoClassCodePrefix = GEO_CLASS_CODE_INIT_PREFIX + sectionNameNumber;
+        String geoClassNamePrefix = ConstantsUtil.GEO_CLASS_NAME_INIT_PREFIX + sectionNameNumber;
+        String geoClassCodePrefix = ConstantsUtil.GEO_CLASS_CODE_INIT_PREFIX + sectionNameNumber;
         StringBuilder sb = new StringBuilder();
 
         sectionAddRequest.getGeologicalClasses()
@@ -58,12 +54,12 @@ public class SectionValidator {
                         throw new InvalidElementException(sb.toString());
                     }
 
-                    String geoClassNumber = geoClassName.substring(GEO_CLASS_NAME_INIT_PREFIX.length());
-                    if (!geoClassCode.substring(GEO_CLASS_CODE_INIT_PREFIX.length()).equals(geoClassNumber)) {
+                    String geoClassNumber = geoClassName.substring(ConstantsUtil.GEO_CLASS_NAME_INIT_PREFIX.length());
+                    if (!geoClassCode.substring(ConstantsUtil.GEO_CLASS_CODE_INIT_PREFIX.length()).equals(geoClassNumber)) {
                         sb.append("In the section: '").append(sectionName).append("' and ")
                                 .append("geological class name: '").append(geoClassName).append("', ")
                                 .append("geological class code: '").append(geoClassCode).append("' is not valid. ")
-                                .append("It should be '").append(GEO_CLASS_CODE_INIT_PREFIX).append(geoClassNumber).append("'");
+                                .append("It should be '").append(ConstantsUtil.GEO_CLASS_CODE_INIT_PREFIX).append(geoClassNumber).append("'");
                         throw new InvalidElementException(sb.toString());
                     }
 

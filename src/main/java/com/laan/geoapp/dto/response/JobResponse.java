@@ -8,4 +8,5 @@ public class JobResponse {
 
     private String id;
     private JobResult result;
+    private String detail;
 }
