@@ -6,4 +6,5 @@ public interface ExportService {
 
     JobResponse exportFile();
 
+    JobResponse getExportJobStatus(final String id);
 }

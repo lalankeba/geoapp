@@ -5,6 +5,7 @@ import com.laan.geoapp.entity.JobEntity;
 import com.laan.geoapp.entity.SectionEntity;
 import com.laan.geoapp.enums.JobResult;
 import com.laan.geoapp.enums.JobType;
+import com.laan.geoapp.exception.ElementNotFoundException;
 import com.laan.geoapp.mapper.JobMapper;
 import com.laan.geoapp.repository.JobRepository;
 import com.laan.geoapp.repository.SectionRepository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +46,16 @@ public class ExportServiceImpl implements ExportService {
         fileJobUtil.exportFile(savedJobEntity, sectionEntities);
 
         return jobMapper.mapEntityToResponse(savedJobEntity);
+    }
+
+    @Override
+    public JobResponse getExportJobStatus(final String id) {
+        Optional<JobEntity> optionalJobEntity = jobRepository.findById(id);
+
+        if (optionalJobEntity.isEmpty()) {
+            throw new ElementNotFoundException("Export job cannot be found the given id: " + id);
+        }
+        return jobMapper.mapEntityToResponse(optionalJobEntity.get());
     }
 
 }
