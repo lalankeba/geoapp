@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
+
 @RestController
 @RequestMapping(PathUtil.WELCOME)
 @Slf4j
@@ -15,7 +17,8 @@ public class InitController {
 
     @GetMapping
     public ResponseEntity<Object> welcome() {
-        log.info("Welcome to Geo App");
-        return new ResponseEntity<>("Welcome to Geo App", HttpStatus.OK);
+        String message = "Welcome to Geo App";
+        log.info(message);
+        return new ResponseEntity<>(Collections.singletonMap("message", message), HttpStatus.OK);
     }
 }
