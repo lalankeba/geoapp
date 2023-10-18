@@ -1,0 +1,86 @@
+== Section
+This section explains how to communicate with section API
+
+
+=== Create Section
+
+.curl request
+include::{snippets}/create-section/curl-request.adoc[]
+
+.Request Parameter Description
+include::{snippets}/create-section/request-fields.adoc[]
+
+.response
+include::{snippets}/create-section/http-response.adoc[]
+
+.Response Description
+include::{snippets}/create-section/response-fields.adoc[]
+
+
+=== Get Section
+
+.curl request
+include::{snippets}/get-section/curl-request.adoc[]
+
+.Path Parameter Description
+include::{snippets}/get-section/path-parameters.adoc[]
+
+.response
+include::{snippets}/get-section/http-response.adoc[]
+
+
+=== Get Sections
+
+.curl request
+include::{snippets}/get-sections/curl-request.adoc[]
+
+.response
+include::{snippets}/get-sections/http-response.adoc[]
+
+
+=== Update Section
+
+You can update existing section.
+
+.curl request
+include::{snippets}/update-section/curl-request.adoc[]
+
+.Path Parameter Description
+include::{snippets}/update-section/path-parameters.adoc[]
+
+.Request Parameter Description
+include::{snippets}/update-section/request-fields.adoc[]
+
+.response
+include::{snippets}/update-section/http-response.adoc[]
+
+.Response Description
+include::{snippets}/update-section/response-fields.adoc[]
+
+
+=== Delete Section
+
+You can delete existing section by name.
+
+.curl request
+include::{snippets}/delete-section/curl-request.adoc[]
+
+.Path Parameter Description
+include::{snippets}/delete-section/path-parameters.adoc[]
+
+.response
+include::{snippets}/delete-section/http-response.adoc[]
+
+
+=== Get Sections by Geological Class code
+
+You can find the sections by the code of their geological classes.
+
+.curl request
+include::{snippets}/get-sections-by-geo-code/curl-request.adoc[]
+
+.Query Parameter Description
+include::{snippets}/get-sections-by-geo-code/query-parameters.adoc[]
+
+.response
+include::{snippets}/get-sections-by-geo-code/http-response.adoc[]

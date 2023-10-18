@@ -2,5 +2,9 @@ package com.laan.geoapp.enums;
 
 public enum JobResult {
 
-    DONE, IN_PROGRESS, ERROR
+    // tag::jobResultValues[]
+    DONE,
+    IN_PROGRESS,
+    ERROR
+    // end::jobResultValues[]
 }

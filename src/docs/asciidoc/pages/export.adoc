@@ -1,0 +1,48 @@
+== Export File
+
+You can export all the section details to an excel file.
+
+=== Export File
+
+.curl request
+include::{snippets}/export-file/curl-request.adoc[]
+
+.response
+include::{snippets}/export-file/http-response.adoc[]
+
+.Response Description
+include::{snippets}/export-file/response-fields.adoc[]
+
+==== Possible values for result attribute
+[source, java]
+----
+include::{sourcedir}/enums/JobResult.java[tags=jobResultValues]
+----
+
+=== Get Export Job Status
+
+.curl request
+include::{snippets}/get-export-job-status/curl-request.adoc[]
+
+.Path Parameter Description
+include::{snippets}/get-export-job-status/path-parameters.adoc[]
+
+.response
+include::{snippets}/get-export-job-status/http-response.adoc[]
+
+.Response Description
+include::{snippets}/get-export-job-status/response-fields.adoc[]
+
+
+=== Get Export file
+
+.curl request
+include::{snippets}/get-export-file/curl-request.adoc[]
+
+.Path Parameter Description
+include::{snippets}/get-export-file/path-parameters.adoc[]
+
+.Response Description
+Microsoft excel document
+
+IMPORTANT: If the export job is still processing, it will return an error.

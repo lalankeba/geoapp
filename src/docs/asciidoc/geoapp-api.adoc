@@ -1,0 +1,22 @@
+= Geological Data Application
+Lalanke Athauda <lalankeba@gmail.com>;
+v1.0, {docdate}
+:description: Sections and geological class data application
+:toc: left
+:toclevels: 3
+:toc-title: Contents
+:source-highlighter: rouge
+:sectanchors: true
+:icons: font
+:sourcedir: ../../../main/java/com/laan/geoapp
+
+== Introduction
+This project has the back end logic for sections and geological class data. System can import data and export data as well.
+
+include::pages/init.adoc[]
+
+include::pages/section.adoc[]
+
+include::pages/import.adoc[]
+
+include::pages/export.adoc[]

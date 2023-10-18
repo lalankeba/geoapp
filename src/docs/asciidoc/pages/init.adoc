@@ -1,0 +1,9 @@
+== Check The System
+You can check the backend service is working properly.
+
+
+.curl request
+include::{snippets}/init/curl-request.adoc[]
+
+.response
+include::{snippets}/init/http-response.adoc[]

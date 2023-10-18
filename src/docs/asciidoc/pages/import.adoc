@@ -1,0 +1,30 @@
+== Import File
+
+You can import an excel file with section details.
+
+=== Import File
+
+.curl request
+include::{snippets}/import-file/curl-request.adoc[]
+
+.response
+include::{snippets}/import-file/http-response.adoc[]
+
+.Response Description
+include::{snippets}/import-file/response-fields.adoc[]
+
+
+=== Get Import Job Status
+
+.curl request
+include::{snippets}/get-import-job-status/curl-request.adoc[]
+
+.Path Parameter Description
+include::{snippets}/get-import-job-status/path-parameters.adoc[]
+
+.response
+include::{snippets}/get-import-job-status/http-response.adoc[]
+
+.curl request
+include::{snippets}/get-import-job-status/response-fields.adoc[]
+
