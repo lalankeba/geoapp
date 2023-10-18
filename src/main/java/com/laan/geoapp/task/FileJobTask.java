@@ -1,4 +1,4 @@
-package com.laan.geoapp.util;
+package com.laan.geoapp.task;
 
 import com.laan.geoapp.dto.request.GeologicalClassAddRequest;
 import com.laan.geoapp.dto.request.SectionAddRequest;
@@ -9,6 +9,7 @@ import com.laan.geoapp.entity.SectionEntity;
 import com.laan.geoapp.enums.JobResult;
 import com.laan.geoapp.repository.JobRepository;
 import com.laan.geoapp.service.SectionService;
+import com.laan.geoapp.util.ConstantsUtil;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ import java.util.*;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class FileJobUtil {
+public class FileJobTask {
 
     @Value("${app.file.path}")
     private String filePath;
@@ -117,6 +118,7 @@ public class FileJobUtil {
         String detail;
 
         try {
+            sectionEntities.sort((se1, se2) -> Integer.compare(getSectionNumber(se1.getName()), getSectionNumber(se2.getName())));
             writeExportFile(sectionEntities, jobEntity.getFileName());
 
             jobResult = JobResult.DONE;

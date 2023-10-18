@@ -11,7 +11,7 @@ import com.laan.geoapp.mapper.JobMapper;
 import com.laan.geoapp.repository.JobRepository;
 import com.laan.geoapp.repository.SectionRepository;
 import com.laan.geoapp.service.ExportService;
-import com.laan.geoapp.util.FileJobUtil;
+import com.laan.geoapp.task.FileJobTask;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +36,7 @@ public class ExportServiceImpl implements ExportService {
 
     private final JobRepository jobRepository;
 
-    private final FileJobUtil fileJobUtil;
+    private final FileJobTask fileJobTask;
 
     private final SectionRepository sectionRepository;
 
@@ -47,7 +47,7 @@ public class ExportServiceImpl implements ExportService {
         log.info("Export job saved");
 
         List<SectionEntity> sectionEntities = sectionRepository.findAll();
-        fileJobUtil.exportFile(savedJobEntity, sectionEntities);
+        fileJobTask.exportFile(savedJobEntity, sectionEntities);
 
         return jobMapper.mapEntityToResponse(savedJobEntity);
     }

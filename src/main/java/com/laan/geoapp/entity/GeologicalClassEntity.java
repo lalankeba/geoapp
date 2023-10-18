@@ -2,6 +2,7 @@ package com.laan.geoapp.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -17,5 +18,6 @@ public class GeologicalClassEntity {
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "section_name")
+    @ToString.Exclude
     private SectionEntity sectionEntity;
 }

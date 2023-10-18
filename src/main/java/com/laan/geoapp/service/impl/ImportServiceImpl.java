@@ -8,7 +8,7 @@ import com.laan.geoapp.exception.ElementNotFoundException;
 import com.laan.geoapp.mapper.JobMapper;
 import com.laan.geoapp.repository.JobRepository;
 import com.laan.geoapp.service.ImportService;
-import com.laan.geoapp.util.FileJobUtil;
+import com.laan.geoapp.task.FileJobTask;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +31,7 @@ public class ImportServiceImpl implements ImportService {
 
     private final JobMapper jobMapper;
 
-    private final FileJobUtil fileJobUtil;
+    private final FileJobTask fileJobTask;
 
     @Override
     public JobResponse processImportFile(final MultipartFile file) {
@@ -39,7 +39,7 @@ public class ImportServiceImpl implements ImportService {
         JobEntity savedJobEntity = jobRepository.save(jobEntity);
         log.info("Import job saved");
 
-        fileJobUtil.importFile(file, savedJobEntity);
+        fileJobTask.importFile(file, savedJobEntity);
 
         return jobMapper.mapEntityToResponse(savedJobEntity);
     }
