@@ -51,10 +51,10 @@ public class SectionController {
     }
 
     @PutMapping(PathUtil.NAME_PLACEHOLDER)
-    public ResponseEntity<Object> createSection(@PathVariable("name") String name, @Valid @RequestBody SectionUpdateRequest sectionUpdateRequest) {
+    public ResponseEntity<Object> updateSection(@PathVariable("name") String name, @Valid @RequestBody SectionUpdateRequest sectionUpdateRequest) {
         log.info("Updating section");
         SectionResponse sectionResponse = sectionService.updateSection(name, sectionUpdateRequest);
-        log.info("Updated new section");
+        log.info("Updated section");
         return new ResponseEntity<>(sectionResponse, HttpStatus.OK);
     }
 

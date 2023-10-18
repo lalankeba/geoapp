@@ -90,7 +90,7 @@ public class SectionServiceImpl implements SectionService {
         geologicalClassValidator.validateDuplicateGeologicalClasses(sectionUpdateRequest.getGeologicalClasses());
         log.info("Validated section name, geological class names and codes");
 
-        geologicalClassRepository.deleteAllBySectionEntity(optionalSectionEntity.get());
+        sectionRepository.deleteById(name);
 
         SectionEntity sectionEntity = sectionMapper.mapUpdateRequestToEntity(sectionUpdateRequest);
         SectionEntity updatedSectionEntity = sectionRepository.save(sectionEntity);
