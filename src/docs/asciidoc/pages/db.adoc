@@ -1,0 +1,3 @@
+== Enitity Relationaship diagram
+
+image::images/geoapp-erd.jpeg[alt=ER, title="ER diagram"]
