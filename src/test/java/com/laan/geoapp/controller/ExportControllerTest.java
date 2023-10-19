@@ -20,11 +20,12 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc
 @AutoConfigureRestDocs
 @Slf4j
 public class ExportControllerTest {
@@ -46,6 +47,7 @@ public class ExportControllerTest {
         this.mockMvc.perform(
                         RestDocumentationRequestBuilders
                                 .get(PathUtil.EXPORT)
+                                .with(httpBasic(testUtils.getBasicUsername(), testUtils.getBasicPassword()))
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").exists())
@@ -67,6 +69,7 @@ public class ExportControllerTest {
         this.mockMvc.perform(
                         RestDocumentationRequestBuilders
                                 .get(PathUtil.EXPORT + PathUtil.ID_PLACEHOLDER, jobResponse.getId())
+                                .with(httpBasic(testUtils.getBasicUsername(), testUtils.getBasicPassword()))
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").exists())
@@ -94,6 +97,7 @@ public class ExportControllerTest {
         this.mockMvc.perform(
                         RestDocumentationRequestBuilders
                                 .get(PathUtil.EXPORT + PathUtil.ID_PLACEHOLDER + PathUtil.FILE, jobResponse.getId())
+                                .with(httpBasic(testUtils.getBasicUsername(), testUtils.getBasicPassword()))
                 )
                 .andExpect(status().isOk())
                 .andDo(

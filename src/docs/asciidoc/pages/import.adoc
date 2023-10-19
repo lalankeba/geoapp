@@ -1,8 +1,10 @@
 == Import File
 
-You can import an excel file with section details.
+This section explains how to communicate with import file API.
 
 === Import File
+
+Import excel (*.xsl) file containing new section details and returns the id of the started job.
 
 .curl request
 include::{snippets}/import-file/curl-request.adoc[]
@@ -15,6 +17,8 @@ include::{snippets}/import-file/response-fields.adoc[]
 
 
 === Get Import Job Status
+
+Check import job status by id
 
 .curl request
 include::{snippets}/get-import-job-status/curl-request.adoc[]

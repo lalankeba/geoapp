@@ -1,8 +1,10 @@
 == Section
+
 This section explains how to communicate with section API
 
-
 === Create Section
+
+Creates a section with geological class details. Here the name of the section must be unique across the system. Geological class name and code should contain the section number.
 
 .curl request
 include::{snippets}/create-section/curl-request.adoc[]
@@ -19,6 +21,8 @@ include::{snippets}/create-section/response-fields.adoc[]
 
 === Get Section
 
+Retrieves an existing section by section name
+
 .curl request
 include::{snippets}/get-section/curl-request.adoc[]
 
@@ -31,6 +35,8 @@ include::{snippets}/get-section/http-response.adoc[]
 
 === Get Sections
 
+Retrieves existing sections as a list
+
 .curl request
 include::{snippets}/get-sections/curl-request.adoc[]
 
@@ -40,7 +46,7 @@ include::{snippets}/get-sections/http-response.adoc[]
 
 === Update Section
 
-You can update existing section.
+Updates an existing section with geological classes.
 
 .curl request
 include::{snippets}/update-section/curl-request.adoc[]
@@ -60,7 +66,7 @@ include::{snippets}/update-section/response-fields.adoc[]
 
 === Delete Section
 
-You can delete existing section by name.
+Deletes an existing section by name. This will delete the related geological class details too.
 
 .curl request
 include::{snippets}/delete-section/curl-request.adoc[]
@@ -74,7 +80,7 @@ include::{snippets}/delete-section/http-response.adoc[]
 
 === Get Sections by Geological Class code
 
-You can find the sections by the code of their geological classes.
+Find sections by geological class code
 
 .curl request
 include::{snippets}/get-sections-by-geo-code/curl-request.adoc[]

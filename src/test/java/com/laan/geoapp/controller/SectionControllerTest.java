@@ -20,11 +20,12 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc
 @AutoConfigureRestDocs
 public class SectionControllerTest {
 
@@ -49,6 +50,7 @@ public class SectionControllerTest {
         this.mockMvc.perform(
                 RestDocumentationRequestBuilders
                         .post(PathUtil.SECTIONS)
+                        .with(httpBasic(testUtils.getBasicUsername(), testUtils.getBasicPassword()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsBytes(sectionAddRequest))
                 )
@@ -80,6 +82,7 @@ public class SectionControllerTest {
         this.mockMvc.perform(
                         RestDocumentationRequestBuilders
                                 .get(PathUtil.SECTIONS + PathUtil.NAME_PLACEHOLDER, sectionAddRequest.getName())
+                                .with(httpBasic(testUtils.getBasicUsername(), testUtils.getBasicPassword()))
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(containsString(sectionAddRequest.getName())))
@@ -103,6 +106,7 @@ public class SectionControllerTest {
         this.mockMvc.perform(
                         RestDocumentationRequestBuilders
                                 .get(PathUtil.SECTIONS)
+                                .with(httpBasic(testUtils.getBasicUsername(), testUtils.getBasicPassword()))
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(greaterThan(1))))
@@ -124,6 +128,7 @@ public class SectionControllerTest {
         this.mockMvc.perform(
                     RestDocumentationRequestBuilders
                             .put(PathUtil.SECTIONS + PathUtil.NAME_PLACEHOLDER, sectionAddRequest.getName())
+                            .with(httpBasic(testUtils.getBasicUsername(), testUtils.getBasicPassword()))
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsBytes(sectionUpdateRequest))
                 )
@@ -156,6 +161,7 @@ public class SectionControllerTest {
         this.mockMvc.perform(
                 RestDocumentationRequestBuilders
                         .delete(PathUtil.SECTIONS + PathUtil.NAME_PLACEHOLDER, sectionAddRequest.getName())
+                        .with(httpBasic(testUtils.getBasicUsername(), testUtils.getBasicPassword()))
                 )
                 .andExpect(status().isNoContent())
                 .andDo(
@@ -174,6 +180,7 @@ public class SectionControllerTest {
         this.mockMvc.perform(
                         RestDocumentationRequestBuilders
                                 .get(PathUtil.SECTIONS + PathUtil.BY_CODE + "?code=" +"GC83")
+                                .with(httpBasic(testUtils.getBasicUsername(), testUtils.getBasicPassword()))
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(equalTo(1))))

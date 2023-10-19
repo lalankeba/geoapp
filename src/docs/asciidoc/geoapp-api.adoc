@@ -11,7 +11,20 @@ v1.0, {docdate}
 :sourcedir: ../../../main/java/com/laan/geoapp
 
 == Introduction
-This project has the back end logic for sections and geological class data. System can import data and export data as well.
+This project has the back end logic for sections and geological class data. System also is able to import and export data from excel files.
+The project includes following functions.
+
+. Create section - create a section with geological classes
+. Get Section - reads an existing section by section name
+. Get Sections - reads existing sections as a list
+. Update section - updates an existing section with geological classes
+. Delete section - deletes an existing section
+. Find sections - find sections by geological class code
+. Import file - import file containing new section details and returns id
+. Get import job status - check import job status by id
+. Export file - Start export job and returns id
+. Get export job status - check export job status by id
+. Get export file - retrieves export file by id
 
 include::pages/db.adoc[]
 

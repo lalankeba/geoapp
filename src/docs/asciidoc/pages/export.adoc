@@ -1,8 +1,10 @@
 == Export File
 
-You can export all the section details to an excel file.
+This section explains how to communicate with export file API.
 
 === Export File
+
+Start the task of exporting all the section details to an excel (*.xsl) file and returns the id of the job.
 
 .curl request
 include::{snippets}/export-file/curl-request.adoc[]
@@ -21,6 +23,8 @@ include::{sourcedir}/enums/JobResult.java[tags=jobResultValues]
 
 === Get Export Job Status
 
+Check export job status by id.
+
 .curl request
 include::{snippets}/get-export-job-status/curl-request.adoc[]
 
@@ -35,6 +39,8 @@ include::{snippets}/get-export-job-status/response-fields.adoc[]
 
 
 === Get Export file
+
+Retrieves the export file as excel (*.xsl) document by id.
 
 .curl request
 include::{snippets}/get-export-file/curl-request.adoc[]

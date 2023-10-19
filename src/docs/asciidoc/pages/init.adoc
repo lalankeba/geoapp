@@ -1,5 +1,5 @@
 == Check The System
-You can check the backend service is working properly.
+Check whether the backend service works properly.
 
 
 .curl request

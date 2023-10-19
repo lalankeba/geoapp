@@ -14,9 +14,16 @@ import com.laan.geoapp.service.SectionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +44,12 @@ public class TestUtils {
     @Autowired
     private ExportService exportService;
 
+    @Value("${spring.security.user.name}")
+    private String basicUsername;
+
+    @Value("${spring.security.user.password}")
+    private String basicPassword;
+
     public SectionResponse createSection(final SectionAddRequest sectionAddRequest) {
         return sectionService.createSection(sectionAddRequest);
     }
@@ -44,6 +57,11 @@ public class TestUtils {
     public void deleteAllSectionsAfterRunningJobs() {
         List<JobEntity> runningJobEntities = jobRepository.findByJobResult(JobResult.IN_PROGRESS);
         while (runningJobEntities != null && runningJobEntities.size() > 0) {
+            try {
+                log.info("Waiting for {} running jobs...", runningJobEntities.size());
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+            }
             runningJobEntities = jobRepository.findByJobResult(JobResult.IN_PROGRESS);
         }
         List<SectionResponse> sectionResponses = sectionService.getSections();
@@ -67,6 +85,11 @@ public class TestUtils {
         JobResponse pendingJobResponse = exportService.exportFile();
         JobResponse jobResponse = exportService.getExportJobStatus(pendingJobResponse.getId());
         while (jobResponse != null && jobResponse.getResult() == JobResult.IN_PROGRESS) {
+            try {
+                log.info("Waiting for export job to be finished...");
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+            }
             jobResponse = exportService.getExportJobStatus(pendingJobResponse.getId());
         }
         return jobResponse;
@@ -108,4 +131,21 @@ public class TestUtils {
         return geologicalClassAddRequest;
     }
 
+    public MockMultipartFile getMultipartFile(final String fileName) throws IOException {
+        String absolutePath = new File("src/test/resources/sample-files").getAbsolutePath();
+        File file = new File(absolutePath, fileName);
+        InputStream inputStream = new FileInputStream(file);
+
+        MockMultipartFile multipartFile =
+                new MockMultipartFile("file", fileName, MediaType.valueOf("application/vnd.ms-excel").toString(), inputStream);
+        return multipartFile;
+    }
+
+    public String getBasicUsername() {
+        return basicUsername;
+    }
+
+    public String getBasicPassword() {
+        return basicPassword;
+    }
 }
