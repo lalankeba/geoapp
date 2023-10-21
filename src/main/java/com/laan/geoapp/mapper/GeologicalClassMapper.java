@@ -23,8 +23,6 @@ public interface GeologicalClassMapper {
                 .toList();
     }
 
-    List<GeologicalClassEntity> mapAddRequestsToEntities(List<GeologicalClassAddRequest> addRequests);
-
     @Mapping(target = "sectionEntity", ignore = true)
     GeologicalClassEntity mapAddRequestToEntity(GeologicalClassAddRequest addRequest);
 
