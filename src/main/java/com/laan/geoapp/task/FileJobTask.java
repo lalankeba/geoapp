@@ -75,37 +75,39 @@ public class FileJobTask {
 
         FileInputStream fileInputStream = new FileInputStream(tempFile);
         Workbook workbook = new HSSFWorkbook(fileInputStream);
-        Sheet sheet = workbook.getSheetAt(0);
+        try (fileInputStream; workbook) {
+            Sheet sheet = workbook.getSheetAt(0);
 
-        int rowIndex = 0;
-        first:
-        for (Row row: sheet) {
-            SectionAddRequest sectionAddRequest = new SectionAddRequest();
-            GeologicalClassAddRequest geologicalClassAddRequest = null;
-            List<GeologicalClassAddRequest> geologicalClassAddRequests = new ArrayList<>();
-            int cellIndex = 0;
-            for (Cell cell: row) {
-                if (rowIndex == 0) { // header row
-                    rowIndex++;
-                    continue first;
-                } else { // data rows
-                    if (cellIndex == 0) { // section name column
-                        sectionAddRequest.setName(cell.getRichStringCellValue().getString().trim());
-                    } else {
-                        if (cellIndex % 2 == 1) { // geological class name column
-                            geologicalClassAddRequest = new GeologicalClassAddRequest();
-                            geologicalClassAddRequest.setName(cell.getRichStringCellValue().getString().trim());
-                        } else { // geological class code
-                            geologicalClassAddRequest.setCode(cell.getRichStringCellValue().getString().trim());
-                            geologicalClassAddRequests.add(geologicalClassAddRequest);
+            int rowIndex = 0;
+            first:
+            for (Row row : sheet) {
+                SectionAddRequest sectionAddRequest = new SectionAddRequest();
+                GeologicalClassAddRequest geologicalClassAddRequest = null;
+                List<GeologicalClassAddRequest> geologicalClassAddRequests = new ArrayList<>();
+                int cellIndex = 0;
+                for (Cell cell : row) {
+                    if (rowIndex == 0) { // header row
+                        rowIndex++;
+                        continue first;
+                    } else { // data rows
+                        if (cellIndex == 0) { // section name column
+                            sectionAddRequest.setName(cell.getRichStringCellValue().getString().trim());
+                        } else {
+                            if (cellIndex % 2 == 1) { // geological class name column
+                                geologicalClassAddRequest = new GeologicalClassAddRequest();
+                                geologicalClassAddRequest.setName(cell.getRichStringCellValue().getString().trim());
+                            } else { // geological class code
+                                geologicalClassAddRequest.setCode(cell.getRichStringCellValue().getString().trim());
+                                geologicalClassAddRequests.add(geologicalClassAddRequest);
+                            }
                         }
                     }
+                    cellIndex++;
                 }
-                cellIndex++;
+                sectionAddRequest.setGeologicalClasses(geologicalClassAddRequests);
+                sectionAddRequests.add(sectionAddRequest);
+                rowIndex++;
             }
-            sectionAddRequest.setGeologicalClasses(geologicalClassAddRequests);
-            sectionAddRequests.add(sectionAddRequest);
-            rowIndex++;
         }
 
         return sectionAddRequests;
@@ -158,6 +160,7 @@ public class FileJobTask {
         FileOutputStream outputStream = new FileOutputStream(fileLocation);
         workbook.write(outputStream);
         workbook.close();
+        outputStream.close();
     }
 
     private void makeBodyRows(final HSSFWorkbook workbook, final Sheet sheet, final List<SectionEntity> sectionEntities) {
