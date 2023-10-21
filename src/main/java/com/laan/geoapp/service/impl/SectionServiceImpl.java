@@ -1,6 +1,5 @@
 package com.laan.geoapp.service.impl;
 
-import com.laan.geoapp.dto.request.GeologicalClassAddRequest;
 import com.laan.geoapp.dto.request.SectionAddRequest;
 import com.laan.geoapp.dto.request.SectionUpdateRequest;
 import com.laan.geoapp.dto.response.SectionResponse;
@@ -8,7 +7,6 @@ import com.laan.geoapp.entity.GeologicalClassEntity;
 import com.laan.geoapp.entity.SectionEntity;
 import com.laan.geoapp.mapper.GeologicalClassMapper;
 import com.laan.geoapp.mapper.SectionMapper;
-import com.laan.geoapp.repository.GeologicalClassRepository;
 import com.laan.geoapp.repository.SectionRepository;
 import com.laan.geoapp.service.SectionService;
 import com.laan.geoapp.validator.GeologicalClassValidator;
@@ -32,8 +30,6 @@ public class SectionServiceImpl implements SectionService {
 
     private final SectionRepository sectionRepository;
 
-    private final GeologicalClassRepository geologicalClassRepository;
-
     private final SectionValidator sectionValidator;
 
     private final GeologicalClassValidator geologicalClassValidator;
@@ -49,15 +45,11 @@ public class SectionServiceImpl implements SectionService {
         sectionValidator.validateDuplicateSectionEntity(optionalSectionEntity);
 
         SectionEntity sectionEntity = sectionMapper.mapAddRequestToEntity(sectionAddRequest);
+        List<GeologicalClassEntity> geologicalClassEntities = geologicalClassMapper.mapAddRequestsToEntities(sectionAddRequest.getGeologicalClasses(), sectionEntity);
+        sectionEntity.setGeologicalClassEntities(geologicalClassEntities);
+
         SectionEntity savedSectionEntity = sectionRepository.save(sectionEntity);
-        log.info("Saved section");
-
-        List<GeologicalClassAddRequest> geologicalClassAddRequests = sectionAddRequest.getGeologicalClasses();
-        List<GeologicalClassEntity> geologicalClassEntities = geologicalClassMapper.mapAddRequestsToEntities(geologicalClassAddRequests, savedSectionEntity);
-        List<GeologicalClassEntity> savedGeologicalClassEntities = geologicalClassRepository.saveAll(geologicalClassEntities);
-        log.info("Saved geological classes");
-
-        savedSectionEntity.setGeologicalClassEntities(savedGeologicalClassEntities);
+        log.info("Saved section with geological class data");
 
         return sectionMapper.mapEntityToResponse(savedSectionEntity);
     }
@@ -93,15 +85,11 @@ public class SectionServiceImpl implements SectionService {
         sectionRepository.deleteById(name);
 
         SectionEntity sectionEntity = sectionMapper.mapUpdateRequestToEntity(sectionUpdateRequest);
+        List<GeologicalClassEntity> geologicalClassEntities = geologicalClassMapper.mapAddRequestsToEntities(sectionUpdateRequest.getGeologicalClasses(), sectionEntity);
+        sectionEntity.setGeologicalClassEntities(geologicalClassEntities);
+
         SectionEntity updatedSectionEntity = sectionRepository.save(sectionEntity);
-        log.info("Updated section");
-
-        List<GeologicalClassAddRequest> geologicalClassUpdateRequests = sectionUpdateRequest.getGeologicalClasses();
-        List<GeologicalClassEntity> geologicalClassEntities = geologicalClassMapper.mapAddRequestsToEntities(geologicalClassUpdateRequests, updatedSectionEntity);
-        List<GeologicalClassEntity> savedGeologicalClassEntities = geologicalClassRepository.saveAll(geologicalClassEntities);
-        log.info("Updated geological classes");
-
-        updatedSectionEntity.setGeologicalClassEntities(savedGeologicalClassEntities);
+        log.info("Updated section with geological class data");
 
         return sectionMapper.mapEntityToResponse(updatedSectionEntity);
     }

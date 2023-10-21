@@ -15,12 +15,11 @@ public interface GeologicalClassMapper {
     GeologicalClassMapper INSTANCE = Mappers.getMapper( GeologicalClassMapper.class );
 
     @Mapping(target = "name", source = "addRequest.name")
-    @Mapping(target = "sectionEntity", source = "existingSectionEntity")
-    GeologicalClassEntity mapAddRequestToEntity(GeologicalClassAddRequest addRequest, SectionEntity existingSectionEntity);
+    GeologicalClassEntity mapAddRequestToEntity(GeologicalClassAddRequest addRequest, SectionEntity sectionEntity);
 
-    default List<GeologicalClassEntity> mapAddRequestsToEntities(List<GeologicalClassAddRequest> addRequests, SectionEntity existingSectionEntity) {
+    default List<GeologicalClassEntity> mapAddRequestsToEntities(List<GeologicalClassAddRequest> addRequests, SectionEntity sectionEntity) {
         return addRequests.stream()
-                .map(addRequest -> mapAddRequestToEntity(addRequest, existingSectionEntity))
+                .map(addRequest -> mapAddRequestToEntity(addRequest, sectionEntity))
                 .toList();
     }
 
