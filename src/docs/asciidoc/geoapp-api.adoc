@@ -9,6 +9,8 @@ v1.0, {docdate}
 :sectanchors: true
 :icons: font
 :sourcedir: ../../../main/java/com/laan/geoapp
+:title-page-background-image: image:images/title-bg.jpg[fit=cover]
+:title-logo-image: image:images/logo.png[top=25%,align=center,pdfwidth=2in]
 
 == Introduction
 This project has the back end logic for sections and geological class data. System also is able to import and export data from excel files.
